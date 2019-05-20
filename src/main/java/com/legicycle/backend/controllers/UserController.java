@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -24,6 +25,7 @@ public class UserController
     @Autowired
     private UserService userService;
 
+    @ApiIgnore
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/users", produces = {"application/json"})
     public ResponseEntity<?> listAllUsers()
@@ -33,6 +35,7 @@ public class UserController
     }
 
 
+    @ApiIgnore
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/user/{userId}", produces = {"application/json"})
     public ResponseEntity<?> getUser(@PathVariable

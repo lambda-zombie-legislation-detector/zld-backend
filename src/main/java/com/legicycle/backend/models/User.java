@@ -1,9 +1,12 @@
 package com.legicycle.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,12 +26,14 @@ public class User extends Auditable
             unique = true)
     private String username;
 
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @OneToMany(mappedBy = "user",
-               cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("user")
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserRoles> userRoles = new ArrayList<>();
 
     public User()

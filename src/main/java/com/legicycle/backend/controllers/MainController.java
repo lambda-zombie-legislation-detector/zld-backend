@@ -1,5 +1,6 @@
 package com.legicycle.backend.controllers;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 @RequestMapping("/api")
 public class MainController {
 
+    @ApiOperation(value="get the list of searchable fields")
     @GetMapping(value = "/search", produces="application/json")
     public ResponseEntity<?> getSearchFields()
     {
