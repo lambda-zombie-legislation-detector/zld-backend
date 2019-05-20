@@ -3,6 +3,7 @@ package com.legicycle.backend.services;
 import com.legicycle.backend.daos.RoleDao;
 import com.legicycle.backend.daos.UserDao;
 import com.legicycle.backend.exceptions.ResourceNotFoundException;
+import com.legicycle.backend.models.Role;
 import com.legicycle.backend.models.User;
 import com.legicycle.backend.models.UserRoles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,10 +74,7 @@ public class UserServiceImpl implements UserDetailsService, UserService
         newUser.setPasswordNoEncrypt(user.getPassword());
 
         ArrayList<UserRoles> newRoles = new ArrayList<>();
-        for (UserRoles ur : user.getUserRoles())
-        {
-            newRoles.add(new UserRoles(newUser, ur.getRole()));
-        }
+        newRoles.add(new UserRoles(newUser, new Role("USER")));
         newUser.setUserRoles(newRoles);
 
         return userdao.save(newUser);

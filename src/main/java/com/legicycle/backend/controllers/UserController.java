@@ -67,6 +67,8 @@ public class UserController
                 .toUri();
         responseHeaders.setLocation(newUserURI);
 
+        newuser.setPassword(null);
+        newuser.setPasswordNoEncrypt(null);
         return new ResponseEntity<>(newuser, responseHeaders, HttpStatus.CREATED);
     }
 
