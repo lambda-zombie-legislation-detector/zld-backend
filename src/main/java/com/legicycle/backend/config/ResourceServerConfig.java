@@ -26,15 +26,15 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
         // http.anonymous().disable();
         // remember that there is also security set in the UserController!
         http.authorizeRequests()
-            .antMatchers("/",                       // h2
-                                   "/h2-console/**",          // h2
+            .antMatchers("/",
                                    "/v2/api-docs",            // swagger
                                    "/swagger-resources",      // swagger
                                    "/swagger-resources/**",   // swagger
                                    "/configuration/ui",       // swagger
                                    "/configuration/security", // swagger
                                    "/swagger-ui.html",        // swagger
-                                   "/webjars/**"              // swagger
+                                   "/webjars/**",             // swagger
+                                    "/api/search/**"
                         ).permitAll()
                 // hasAnyRole can be a list of roles as in "ADMIN", "DATA"
                 .antMatchers("/actuator/**", "/roles/**", "/users/**").hasAnyRole("ADMIN")

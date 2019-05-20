@@ -15,7 +15,7 @@ public class MainController {
     public ResponseEntity<?> getSearchFields()
     {
         // If we're using this it will return a list of fields that we are able to search
-        return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+        return new ResponseEntity<>("If you see this it worked", HttpStatus.I_AM_A_TEAPOT);
     }
 
     @PostMapping(value = "/search", consumes = "application/json", produces="application/json")
