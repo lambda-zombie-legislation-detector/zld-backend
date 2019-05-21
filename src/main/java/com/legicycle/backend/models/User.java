@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,20 +21,20 @@ public class User extends Auditable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(notes = "Unique User Id")
     private long userid;
 
-    @Column(nullable = false,
-            unique = true)
+    @Column(nullable = false, unique = true)
+    @ApiModelProperty(required = true, notes = "used to display user name, must be unique")
     private String username;
 
-    @JsonIgnore
-    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(required = true, notes = "a users password, stored as a hash")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @JsonIgnore
     @ApiModelProperty(hidden = true)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("user")
     private List<UserRoles> userRoles = new ArrayList<>();
 
     public User()
@@ -82,6 +83,7 @@ public class User extends Auditable
         this.password = passwordEncoder.encode(password);
     }
 
+    @JsonIgnore
     public void setPasswordNoEncrypt(String password)
     {
         this.password = password;
@@ -97,6 +99,7 @@ public class User extends Auditable
         this.userRoles = userRoles;
     }
 
+    @JsonIgnore
     public List<SimpleGrantedAuthority> getAuthority()
     {
         List<SimpleGrantedAuthority> rtnList = new ArrayList<>();

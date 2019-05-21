@@ -2,6 +2,8 @@ package com.legicycle.backend.controllers;
 
 import com.legicycle.backend.models.User;
 import com.legicycle.backend.services.UserService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -38,26 +40,27 @@ public class UserController
     @ApiIgnore
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/user/{userId}", produces = {"application/json"})
-    public ResponseEntity<?> getUser(@PathVariable
-            Long userId)
+    public ResponseEntity<?> getUser(@PathVariable Long userId)
     {
         User u = userService.findUserById(userId);
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
 
+    @ApiOperation(value="Get the username of the current user", response = User.class)
     @GetMapping(value = "/getusername", produces = {"application/json"})
-    @ResponseBody
     public ResponseEntity<?> getCurrentUserName(Authentication authentication)
     {
         return new ResponseEntity<>(authentication.getPrincipal(), HttpStatus.OK);
     }
 
-
+    @ApiOperation(value="Adds a user with given username and password to the database", response = User.class)
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping(value = "/user", consumes = {"application/json"}, produces = {"application/json"})
-    public ResponseEntity<?> addNewUser(@Valid @RequestBody
-            User newuser) throws URISyntaxException
+    public ResponseEntity<?> addNewUser(
+            @ApiParam(value = "User to be added, JSON object with \"username\" and \"password\". \n\"userid\" is neither supported nor expected.", required = true)
+            @Valid @RequestBody User newuser
+    ) throws URISyntaxException
     {
         newuser =  userService.save(newuser);
 
@@ -76,20 +79,22 @@ public class UserController
     }
 
 
+    @ApiOperation(value="Updates the given user, returns nothing")
     @PutMapping(value = "/user/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody
-            User updateUser, @PathVariable
-            long id)
+    public ResponseEntity<?> updateUser(
+            @ApiParam(value = "User Object with updated fields", required = true) @RequestBody User updateUser,
+            @ApiParam(value = "ID used to determine what user to update, comes from the URL path", required = true) @PathVariable long id)
     {
         userService.update(updateUser, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
+    @ApiOperation(value="Deletes the given user, returns nothing")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/user/{id}")
-    public ResponseEntity<?> deleteUserById(@PathVariable
-            long id)
+    public ResponseEntity<?> deleteUserById(
+            @ApiParam(value = "ID used to determine what user to delete, comes from the URL path", required = true) @PathVariable long id)
     {
         userService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

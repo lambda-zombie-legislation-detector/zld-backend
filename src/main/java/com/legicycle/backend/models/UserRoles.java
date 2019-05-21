@@ -3,13 +3,12 @@ package com.legicycle.backend.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@ApiIgnore
+
 @Entity
 @Table(name = "userroles")
 public class UserRoles extends Auditable implements Serializable

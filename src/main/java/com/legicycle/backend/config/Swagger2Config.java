@@ -2,6 +2,8 @@ package com.legicycle.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -22,7 +24,14 @@ public class Swagger2Config extends WebMvcConfigurerAdapter
     @Bean
     public Docket api()
     {
-        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("com.legicycle.backend")).paths(PathSelectors.regex("/.*")).build().apiInfo(apiEndPointsInfo());
+        return new Docket(DocumentationType.SWAGGER_2).select()
+                .apis(RequestHandlerSelectors.basePackage("com.legicycle.backend"))
+                .paths(PathSelectors.regex("/.*"))
+                .build()
+                .useDefaultResponseMessages(false) // only use custom responses
+                .ignoredParameterTypes(Pageable.class)
+                .ignoredParameterTypes(Authentication.class)
+                .apiInfo(apiEndPointsInfo());
     }
 
     private ApiInfo apiEndPointsInfo()

@@ -74,7 +74,8 @@ public class UserServiceImpl implements UserDetailsService, UserService
         newUser.setPasswordNoEncrypt(user.getPassword());
 
         ArrayList<UserRoles> newRoles = new ArrayList<>();
-        newRoles.add(new UserRoles(newUser, new Role("USER")));
+        Role r = roledao.findRoleByName("USER");
+        newRoles.add(new UserRoles(newUser, r));
         newUser.setUserRoles(newRoles);
 
         return userdao.save(newUser);
