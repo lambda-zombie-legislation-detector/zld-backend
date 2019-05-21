@@ -62,6 +62,7 @@ public class UserController
             throw new InvalidInputException("Must provide a valid username and password");
         }
         newuser =  userService.save(newuser);
+
         return new ResponseEntity<>(newuser, HttpStatus.CREATED);
     }
 
