@@ -1,5 +1,6 @@
 package com.legicycle.backend.handlers;
 
+import com.legicycle.backend.exceptions.InvalidInputException;
 import com.legicycle.backend.exceptions.ResourceNotFoundException;
 import com.legicycle.backend.models.ErrorDetail;
 import org.springframework.beans.TypeMismatchException;
@@ -36,6 +37,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
         errorDetail.setDeveloperMessage(rnfe.getClass().getName());
 
         return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({InvalidInputException.class})
+    public ResponseEntity<?> handleResourceNotFoundException(InvalidInputException ex, HttpServletRequest request)
+    {
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setTimestamp(new Date().getTime());
+        errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
+        errorDetail.setTitle("Invalid Input Exception");
+        errorDetail.setDetail(ex.getMessage());
+        errorDetail.setDeveloperMessage(ex.getClass().getName());
+
+        return new ResponseEntity<>(errorDetail, HttpStatus.NOT_ACCEPTABLE);
     }
 
 

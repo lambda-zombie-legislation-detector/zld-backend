@@ -1,22 +1,19 @@
 package com.legicycle.backend.controllers;
 
+import com.legicycle.backend.exceptions.InvalidInputException;
 import com.legicycle.backend.models.User;
 import com.legicycle.backend.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -55,27 +52,17 @@ public class UserController
     }
 
     @ApiOperation(value="Adds a user with given username and password to the database", response = User.class)
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping(value = "/user", consumes = {"application/json"}, produces = {"application/json"})
+    @PostMapping(value = "/register", consumes = {"application/json"}, produces = {"application/json"})
     public ResponseEntity<?> addNewUser(
             @ApiParam(value = "User to be added, JSON object with \"username\" and \"password\". \n\"userid\" is neither supported nor expected.", required = true)
             @Valid @RequestBody User newuser
-    ) throws URISyntaxException
+    )
     {
+        if (newuser.getPassword() == null || newuser.getUsername() == null) {
+            throw new InvalidInputException("Must provide a valid username and password");
+        }
         newuser =  userService.save(newuser);
-
-        // set the location header for the newly created resource
-        HttpHeaders responseHeaders = new HttpHeaders();
-        URI newUserURI = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{userid}")
-                .buildAndExpand(newuser.getUserid())
-                .toUri();
-        responseHeaders.setLocation(newUserURI);
-
-        newuser.setPassword(null);
-        newuser.setPasswordNoEncrypt(null);
-        return new ResponseEntity<>(newuser, responseHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<>(newuser, HttpStatus.CREATED);
     }
 
 

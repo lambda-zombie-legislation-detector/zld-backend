@@ -34,7 +34,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
                                    "/configuration/security", // swagger
                                    "/swagger-ui.html",        // swagger
                                    "/webjars/**",             // swagger
-                                    "/api/search/**"
+                                   "/api/search/**",
+                                    "/users/register"
                         ).permitAll()
                 // hasAnyRole can be a list of roles as in "ADMIN", "DATA"
                 .antMatchers("/actuator/**", "/roles/**", "/users/**").hasAnyRole("ADMIN")
