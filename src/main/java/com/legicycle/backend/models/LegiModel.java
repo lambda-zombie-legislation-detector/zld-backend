@@ -1,29 +1,41 @@
 package com.legicycle.backend.models;
 
 import com.github.javafaker.Faker;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.ArrayList;
 
 public class LegiModel {
-//    {
-//        "short_title": "Tax Cuts and Jobs Act",
+
+    @ApiModelProperty(notes = "Short title for Legislation ex. \"Tax Cuts and Jobs Act\"")
     private String short_title;
-//            "similarity_score": 86,
+    //        "short_title": "Tax Cuts and Jobs Act",
+
+    @ApiModelProperty(notes = "Score describing how much of the legislation text is recycled. between 0-100")
     private int similarity_score;
-//            "congress": 115,
+    //            "similarity_score": 86,
+
+    @ApiModelProperty(notes = "Numeric identifier of congress that saw bill")
     private int congress;
-//            "status": "ENACTED:SIGNED",
+    //            "congress": 115,
+
+    @ApiModelProperty(notes = "Current status of the bill. ex \"ENACTED:SIGNED\"")
     private String status;
-//            "bill_link": "https://www.congress.gov/bill/115th-congress/house-bill/1/text",
+    //            "status": "ENACTED:SIGNED",
+
+    @ApiModelProperty(notes = "Hyperlink to the text of the bill ex. \"https://www.congress.gov/bill/115th-congress/house-bill/1/text\"")
     private String bill_link;
-//            "top_5_subjects": [
-//        "American Samoa",
-//                "Arctic and polar regions",
-//                "Art, artists, authorship",
-//                "Assault and harassment offenses",
-//                "Aviation and airports"
-//            ]
+    //            "bill_link": "https://www.congress.gov/bill/115th-congress/house-bill/1/text",
+
+    @ApiModelProperty(notes="String array containing the top 5 subjects categorizing this bill")
     private ArrayList<String> top_5_subjects = new ArrayList<>();
+    //            "top_5_subjects": [
+    //        "American Samoa",
+    //                "Arctic and polar regions",
+    //                "Art, artists, authorship",
+    //                "Assault and harassment offenses",
+    //                "Aviation and airports"
+    //            ]
 //    }
 
     public static LegiModel demoBuilder() {
