@@ -43,9 +43,12 @@ public class HerokuMultiConfig {
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         final HashMap<String, Object> properties = new HashMap<String, Object>();
-        properties.put("hibernate.hbm2ddl.auto", "create");
-        properties.put("hibernate.jdbc.lob.non_contextual_creation", "true");
-        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        properties.put("hibernate.hbm2ddl.auto",
+                env.getProperty("spring.datasource.ddl"));
+        properties.put("hibernate.dialect",
+                env.getProperty("spring.datasource.dialect"));
+        properties.put("hibernate.jdbc.lob.non_contextual_creation",
+                env.getProperty("spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation"));
         em.setJpaPropertyMap(properties);
 
         return em;

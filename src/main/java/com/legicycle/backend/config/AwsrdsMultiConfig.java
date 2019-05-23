@@ -22,7 +22,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @PropertySource({"classpath:application.properties"})
 @EnableJpaRepositories(basePackages = "com.legicycle.backend.daos.awsrds", entityManagerFactoryRef = "awsrdsEntityManager", transactionManagerRef = "awsrdsTransactionManager")
-@Profile("!tc")
 public class AwsrdsMultiConfig {
     @Autowired
     private Environment env;
@@ -48,9 +47,12 @@ public class AwsrdsMultiConfig {
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         final HashMap<String, Object> properties = new HashMap<>();
-        properties.put("hibernate.hbm2ddl.auto", "create");
-        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        properties.put("hibernate.jdbc.lob.non_contextual_creation", "true");
+        properties.put("hibernate.hbm2ddl.auto",
+                env.getProperty("spring.second-datasource.ddl"));
+        properties.put("hibernate.dialect",
+                env.getProperty("spring.second-datasource.dialect"));
+        properties.put("hibernate.jdbc.lob.non_contextual_creation",
+                env.getProperty("spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation"));
         em.setJpaPropertyMap(properties);
 
         return em;
