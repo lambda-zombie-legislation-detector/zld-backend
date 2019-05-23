@@ -30,7 +30,6 @@ public class User extends Auditable
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @ApiModelProperty(hidden = true)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("user")
     private List<UserRoles> userRoles = new ArrayList<>();
@@ -92,6 +91,7 @@ public class User extends Auditable
         this.password = password;
     }
 
+    @JsonIgnore
     public List<UserRoles> getUserRoles()
     {
         return userRoles;
