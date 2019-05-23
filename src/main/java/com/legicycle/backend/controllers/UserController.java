@@ -92,6 +92,7 @@ public class UserController
     }
 
     //get users searches
+    @ApiOperation(value="Returns an Array of Search terms saved by the user", response=String.class, responseContainer="List")
     @GetMapping("/user/searches")
     public ResponseEntity<?> getUserSearches(Authentication authentication) {
         User u = userService.findUserByUsername(authentication.getName());
@@ -101,6 +102,7 @@ public class UserController
     }
 
     //add search item to current user
+    @ApiOperation(value="Adds given search term to active user, returns Active users info with updated data", response=User.class)
     @PutMapping("/user/searches")
     public ResponseEntity<?> addToUserSearches(Authentication authentication,
             @ApiParam(value="Json object with a key \"search\" containing the search term you would like to save") @Valid @RequestBody HashMap<String, String> hashFromJson) {
@@ -117,13 +119,23 @@ public class UserController
     }
 
     //delete search item
+    @ApiOperation(value="Deletes given search term from active user, returns Active users info with updated data", response=User.class)
     @DeleteMapping("/user/searches")
-    public ResponseEntity<?> removeUserSearch(Authentication authentication, @Valid @RequestBody String search) {
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    public ResponseEntity<?> removeUserSearch(Authentication authentication,
+            @ApiParam(value="Json object with a key \"search\" containing the search term you would like to delete") @Valid @RequestBody HashMap<String, String> hashFromJson) {
+        String search;
+        if (hashFromJson.containsKey("search")) {
+            search = hashFromJson.get("search");
+        } else throw new InvalidInputException("could not find a valid entry for \"search\"");
+        User u = userService.findUserByUsername(authentication.getName());
+
+        u = userService.removeSearch(u, search);
+
+        return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
     @DeleteMapping("/user/allsearches")
-    public ResponseEntity<?> removeUserSearch(Authentication authentication) {
+    public ResponseEntity<?> removeAllUserSearches(Authentication authentication) {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 

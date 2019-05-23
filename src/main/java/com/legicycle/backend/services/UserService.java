@@ -13,4 +13,5 @@ public interface UserService {
     User save(User user);
     User update(User user, long id);
     User saveSearch(User user, String search);
+    User removeSearch(User user, String search);
 }

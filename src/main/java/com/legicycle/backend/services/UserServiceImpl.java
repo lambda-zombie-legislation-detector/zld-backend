@@ -2,6 +2,7 @@ package com.legicycle.backend.services;
 
 import com.legicycle.backend.daos.RoleDao;
 import com.legicycle.backend.daos.UserDao;
+import com.legicycle.backend.exceptions.InvalidInputException;
 import com.legicycle.backend.exceptions.ResourceNotFoundException;
 import com.legicycle.backend.models.Role;
 import com.legicycle.backend.models.User;
@@ -142,7 +143,22 @@ public class UserServiceImpl implements UserDetailsService, UserService
     @Override
     @Transactional
     public User saveSearch(User user, String search) {
+        ArrayList<String> searches = new ArrayList<>(user.getSearches());
+        for(String s: searches) {
+            if (s.equals(search)) {
+                throw new InvalidInputException("You have already saved this search. Searches must be unique");
+            }
+        }
         user.getSearches().add(search);
+        return userdao.save(user);
+    }
+
+    @Override
+    @Transactional
+    public User removeSearch(User user, String search) {
+        ArrayList<String> searches = new ArrayList<>(user.getSearches());
+        searches.remove(searches.indexOf(search));
+        user.setSearches(searches);
         return userdao.save(user);
     }
 }
