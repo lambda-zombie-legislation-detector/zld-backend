@@ -39,7 +39,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
                                     "/users/register"
                         ).permitAll()
                 // hasAnyRole can be a list of roles as in "ADMIN", "DATA"
-                .antMatchers("/actuator/**", "/roles/**", "/users/**").hasAnyRole("ADMIN")
+                .antMatchers("/actuator/**", "/roles/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
             .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
 

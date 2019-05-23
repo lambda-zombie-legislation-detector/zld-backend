@@ -35,6 +35,11 @@ public class User extends Auditable
     @JsonIgnoreProperties("user")
     private List<UserRoles> userRoles = new ArrayList<>();
 
+    @ElementCollection
+    @CollectionTable(name="usersearches", joinColumns = @JoinColumn(name="userid"))
+    @Column(name="search")
+    private List<String> searches = new ArrayList<>();
+
     public User()
     {
     }
@@ -95,6 +100,14 @@ public class User extends Auditable
     public void setUserRoles(List<UserRoles> userRoles)
     {
         this.userRoles = userRoles;
+    }
+
+    public List<String> getSearches() {
+        return searches;
+    }
+
+    public void setSearches(List<String> searches) {
+        this.searches = searches;
     }
 
     @JsonIgnore

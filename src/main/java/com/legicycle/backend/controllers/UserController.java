@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -44,11 +45,11 @@ public class UserController
     }
 
 
-    @ApiOperation(value="Get the username of the current user", response = User.class)
+    @ApiOperation(value="Get the username of the current user", response = String.class)
     @GetMapping(value = "/getusername", produces = {"application/json"})
     public ResponseEntity<?> getCurrentUserName(Authentication authentication)
     {
-        return new ResponseEntity<>(authentication.getPrincipal(), HttpStatus.OK);
+        return new ResponseEntity<>(authentication.getName(), HttpStatus.OK);
     }
 
     @ApiOperation(value="Adds a user with given username and password to the database", response = User.class)
@@ -88,4 +89,38 @@ public class UserController
         userService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    //get users searches
+    @GetMapping("/user/searches")
+    public ResponseEntity<?> getUserSearches(Authentication authentication, @Valid @RequestBody String search) {
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    //add search item to current user
+    @PutMapping("/user/searches")
+    public ResponseEntity<?> addToUserSearches(Authentication authentication,
+            @ApiParam(value="Json object with a key \"search\" containing the search term you would like to save") @Valid @RequestBody HashMap<String, String> hashFromJson) {
+        System.out.println(hashFromJson.get("search"));
+
+        String search;
+        if (hashFromJson.containsKey("search")) {
+            search = hashFromJson.get("search");
+        } else throw new InvalidInputException("could not find a valid entry for \"search\"");
+
+        User u = userService.findUserByUsername(authentication.getName());
+        u = userService.saveSearch(u, search);
+        return new ResponseEntity<>(u, HttpStatus.OK);
+    }
+
+    //delete search item
+    @DeleteMapping("/user/searches")
+    public ResponseEntity<?> removeUserSearch(Authentication authentication, @Valid @RequestBody String search) {
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/user/allsearches")
+    public ResponseEntity<?> removeUserSearch(Authentication authentication) {
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
 }

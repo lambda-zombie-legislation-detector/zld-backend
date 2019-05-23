@@ -45,6 +45,15 @@ public class UserServiceImpl implements UserDetailsService, UserService
                 .orElseThrow(() -> new ResourceNotFoundException(Long.toString(id)));
     }
 
+    public User findUserByUsername(String username){
+        User u = userdao.findByUsername(username);
+        if (u == null) {
+            throw new ResourceNotFoundException("Could not find a user with username: \"" + username + "\"");
+        }
+
+        return u;
+    }
+
     public List<User> findAll()
     {
         List<User> list = new ArrayList<>();
@@ -128,5 +137,12 @@ public class UserServiceImpl implements UserDetailsService, UserService
             throw new ResourceNotFoundException(authentication.getName());
         }
 
+    }
+
+    @Override
+    @Transactional
+    public User saveSearch(User user, String search) {
+        user.getSearches().add(search);
+        return userdao.save(user);
     }
 }
