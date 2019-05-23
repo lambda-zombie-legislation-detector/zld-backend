@@ -50,6 +50,7 @@ public class AwsrdsMultiConfig {
         final HashMap<String, Object> properties = new HashMap<>();
         properties.put("hibernate.hbm2ddl.auto", "create");
         properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        properties.put("hibernate.jdbc.lob.non_contextual_creation", "true");
         em.setJpaPropertyMap(properties);
 
         return em;
