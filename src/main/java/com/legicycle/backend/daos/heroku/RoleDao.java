@@ -1,6 +1,6 @@
-package com.legicycle.backend.daos;
+package com.legicycle.backend.daos.heroku;
 
-import com.legicycle.backend.models.Role;
+import com.legicycle.backend.models.heroku.Role;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

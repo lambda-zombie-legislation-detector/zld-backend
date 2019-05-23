@@ -1,9 +1,8 @@
 package com.legicycle.backend.services;
 
-import com.legicycle.backend.models.Role;
+import com.legicycle.backend.models.heroku.Role;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface RoleService
 {

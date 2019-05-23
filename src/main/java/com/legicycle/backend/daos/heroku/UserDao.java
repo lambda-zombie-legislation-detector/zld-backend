@@ -1,6 +1,6 @@
-package com.legicycle.backend.daos;
+package com.legicycle.backend.daos.heroku;
 
-import com.legicycle.backend.models.User;
+import com.legicycle.backend.models.heroku.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserDao extends CrudRepository<User, Long>

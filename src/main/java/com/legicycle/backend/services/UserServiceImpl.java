@@ -1,11 +1,11 @@
 package com.legicycle.backend.services;
 
-import com.legicycle.backend.daos.RoleDao;
-import com.legicycle.backend.daos.UserDao;
+import com.legicycle.backend.daos.heroku.RoleDao;
+import com.legicycle.backend.daos.heroku.UserDao;
 import com.legicycle.backend.exceptions.ResourceNotFoundException;
-import com.legicycle.backend.models.Role;
-import com.legicycle.backend.models.User;
-import com.legicycle.backend.models.UserRoles;
+import com.legicycle.backend.models.heroku.Role;
+import com.legicycle.backend.models.heroku.User;
+import com.legicycle.backend.models.heroku.UserRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

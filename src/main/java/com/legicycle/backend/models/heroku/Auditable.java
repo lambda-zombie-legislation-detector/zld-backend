@@ -1,4 +1,4 @@
-package com.legicycle.backend.models;
+package com.legicycle.backend.models.heroku;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;

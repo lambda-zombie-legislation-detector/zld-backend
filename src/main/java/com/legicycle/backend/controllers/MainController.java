@@ -1,6 +1,6 @@
 package com.legicycle.backend.controllers;
 
-import com.legicycle.backend.models.LegiModel;
+import com.legicycle.backend.models.awsrds.LegiModel;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

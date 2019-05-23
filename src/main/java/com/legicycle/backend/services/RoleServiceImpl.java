@@ -1,15 +1,14 @@
 package com.legicycle.backend.services;
 
 import com.legicycle.backend.exceptions.ResourceNotFoundException;
-import com.legicycle.backend.models.Role;
-import com.legicycle.backend.models.UserRoles;
-import com.legicycle.backend.daos.RoleDao;
+import com.legicycle.backend.models.heroku.Role;
+import com.legicycle.backend.models.heroku.UserRoles;
+import com.legicycle.backend.daos.heroku.RoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service(value = "roleService")
 public class RoleServiceImpl implements RoleService

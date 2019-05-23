@@ -1,6 +1,6 @@
 package com.legicycle.backend.services;
 
-import com.legicycle.backend.models.User;
+import com.legicycle.backend.models.heroku.User;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.legicycle.backend.models;
+package com.legicycle.backend.models.awsrds;
 
 import com.github.javafaker.Faker;
 import io.swagger.annotations.ApiModelProperty;

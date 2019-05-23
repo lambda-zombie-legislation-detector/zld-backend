@@ -1,6 +1,6 @@
 package com.legicycle.backend.controllers;
 
-import com.legicycle.backend.models.Role;
+import com.legicycle.backend.models.heroku.Role;
 import com.legicycle.backend.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

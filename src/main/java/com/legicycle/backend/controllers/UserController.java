@@ -1,7 +1,7 @@
 package com.legicycle.backend.controllers;
 
 import com.legicycle.backend.exceptions.InvalidInputException;
-import com.legicycle.backend.models.User;
+import com.legicycle.backend.models.heroku.User;
 import com.legicycle.backend.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

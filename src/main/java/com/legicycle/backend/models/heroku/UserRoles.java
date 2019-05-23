@@ -1,6 +1,4 @@
-package com.legicycle.backend.models;
-
-
+package com.legicycle.backend.models.heroku;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
