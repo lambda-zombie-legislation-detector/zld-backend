@@ -61,6 +61,7 @@ public class UserController
         if (newuser.getPassword() == null || newuser.getUsername() == null) {
             throw new InvalidInputException("Must provide a valid username and password");
         }
+        System.out.println(newuser);
         newuser =  userService.save(newuser);
 
         return new ResponseEntity<>(newuser, HttpStatus.CREATED);
