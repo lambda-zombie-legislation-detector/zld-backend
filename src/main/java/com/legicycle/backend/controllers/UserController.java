@@ -106,7 +106,6 @@ public class UserController
     @PutMapping("/user/searches")
     public ResponseEntity<?> addToUserSearches(Authentication authentication,
             @ApiParam(value="Json object with a key \"search\" containing the search term you would like to save") @Valid @RequestBody HashMap<String, String> hashFromJson) {
-        System.out.println(hashFromJson.get("search"));
 
         String search;
         if (hashFromJson.containsKey("search")) {
@@ -136,7 +135,8 @@ public class UserController
 
     @DeleteMapping("/user/allsearches")
     public ResponseEntity<?> removeAllUserSearches(Authentication authentication) {
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        User u = userService.findUserByUsername(authentication.getName());
+        return new ResponseEntity<>(userService.removeAllSearches(u), HttpStatus.OK);
     }
 
 }

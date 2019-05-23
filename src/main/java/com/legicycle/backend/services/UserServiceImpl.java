@@ -161,4 +161,11 @@ public class UserServiceImpl implements UserDetailsService, UserService
         user.setSearches(searches);
         return userdao.save(user);
     }
+
+    @Override
+    @Transactional
+    public User removeAllSearches(User u) {
+        u.setSearches(new ArrayList<>());
+        return userdao.save(u);
+    }
 }
