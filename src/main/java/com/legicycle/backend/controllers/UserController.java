@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -92,8 +93,11 @@ public class UserController
 
     //get users searches
     @GetMapping("/user/searches")
-    public ResponseEntity<?> getUserSearches(Authentication authentication, @Valid @RequestBody String search) {
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    public ResponseEntity<?> getUserSearches(Authentication authentication) {
+        User u = userService.findUserByUsername(authentication.getName());
+        ArrayList<String> searches = new ArrayList<>();
+        u.getSearches().iterator().forEachRemaining(searches::add);
+        return new ResponseEntity<>(searches, HttpStatus.OK);
     }
 
     //add search item to current user

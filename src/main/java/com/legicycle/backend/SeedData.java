@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @Transactional
 @Component
@@ -42,6 +43,10 @@ public class SeedData implements CommandLineRunner
 
         User u1 = new User("user", "password", users);
         User u2 = new User("admin", "password", admins);
+
+        ArrayList<String> sampleSearches =
+                new ArrayList<>(Arrays.asList("Macro Economic Policy", "Healthcare", "Gun Reform"));
+        u1.setSearches(sampleSearches);
 
         userrepos.save(u1);
         userrepos.save(u2);
