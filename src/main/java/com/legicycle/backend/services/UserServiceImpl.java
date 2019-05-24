@@ -2,7 +2,9 @@ package com.legicycle.backend.services;
 
 import com.legicycle.backend.daos.RoleDao;
 import com.legicycle.backend.daos.UserDao;
+import com.legicycle.backend.exceptions.InvalidInputException;
 import com.legicycle.backend.exceptions.ResourceNotFoundException;
+import com.legicycle.backend.models.Role;
 import com.legicycle.backend.models.User;
 import com.legicycle.backend.models.UserRoles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,15 @@ public class UserServiceImpl implements UserDetailsService, UserService
                 .orElseThrow(() -> new ResourceNotFoundException(Long.toString(id)));
     }
 
+    public User findUserByUsername(String username){
+        User u = userdao.findByUsername(username);
+        if (u == null) {
+            throw new ResourceNotFoundException("Could not find a user with username: \"" + username + "\"");
+        }
+
+        return u;
+    }
+
     public List<User> findAll()
     {
         List<User> list = new ArrayList<>();
@@ -73,10 +84,9 @@ public class UserServiceImpl implements UserDetailsService, UserService
         newUser.setPasswordNoEncrypt(user.getPassword());
 
         ArrayList<UserRoles> newRoles = new ArrayList<>();
-        for (UserRoles ur : user.getUserRoles())
-        {
-            newRoles.add(new UserRoles(newUser, ur.getRole()));
-        }
+        Role r = roledao.findRoleByName("user");
+
+        newRoles.add(new UserRoles(newUser, r));
         newUser.setUserRoles(newRoles);
 
         return userdao.save(newUser);
@@ -128,5 +138,34 @@ public class UserServiceImpl implements UserDetailsService, UserService
             throw new ResourceNotFoundException(authentication.getName());
         }
 
+    }
+
+    @Override
+    @Transactional
+    public User saveSearch(User user, String search) {
+        ArrayList<String> searches = new ArrayList<>(user.getSearches());
+        for(String s: searches) {
+            if (s.equals(search)) {
+                throw new InvalidInputException("You have already saved this search. Searches must be unique");
+            }
+        }
+        user.getSearches().add(search);
+        return userdao.save(user);
+    }
+
+    @Override
+    @Transactional
+    public User removeSearch(User user, String search) {
+        ArrayList<String> searches = new ArrayList<>(user.getSearches());
+        searches.remove(searches.indexOf(search));
+        user.setSearches(searches);
+        return userdao.save(user);
+    }
+
+    @Override
+    @Transactional
+    public User removeAllSearches(User u) {
+        u.setSearches(new ArrayList<>());
+        return userdao.save(u);
     }
 }

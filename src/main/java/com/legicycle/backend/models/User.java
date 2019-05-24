@@ -1,7 +1,9 @@
 package com.legicycle.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -17,19 +19,25 @@ public class User extends Auditable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(notes = "Unique User Id")
     private long userid;
 
-    @Column(nullable = false,
-            unique = true)
+    @Column(nullable = false, unique = true)
+    @ApiModelProperty(required = true, notes = "used to display user name, must be unique")
     private String username;
 
+    @ApiModelProperty(required = true, notes = "a users password, stored as a hash")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @OneToMany(mappedBy = "user",
-               cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("user")
     private List<UserRoles> userRoles = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name="usersearches", joinColumns = @JoinColumn(name="userid"))
+    @Column(name="search")
+    private List<String> searches = new ArrayList<>();
 
     public User()
     {
@@ -77,11 +85,13 @@ public class User extends Auditable
         this.password = passwordEncoder.encode(password);
     }
 
+    @JsonIgnore
     public void setPasswordNoEncrypt(String password)
     {
         this.password = password;
     }
 
+    @JsonIgnore
     public List<UserRoles> getUserRoles()
     {
         return userRoles;
@@ -92,6 +102,15 @@ public class User extends Auditable
         this.userRoles = userRoles;
     }
 
+    public List<String> getSearches() {
+        return searches;
+    }
+
+    public void setSearches(List<String> searches) {
+        this.searches = searches;
+    }
+
+    @JsonIgnore
     public List<SimpleGrantedAuthority> getAuthority()
     {
         List<SimpleGrantedAuthority> rtnList = new ArrayList<>();
@@ -102,5 +121,10 @@ public class User extends Auditable
             rtnList.add(new SimpleGrantedAuthority(myRole));
         }
         return rtnList;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "userid=" + userid + ", username='" + username + '\'' + ", password='" + password + '\'' + '}';
     }
 }

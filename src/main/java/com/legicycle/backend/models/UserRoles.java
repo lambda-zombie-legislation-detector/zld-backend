@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+
 @Entity
 @Table(name = "userroles")
 public class UserRoles extends Auditable implements Serializable

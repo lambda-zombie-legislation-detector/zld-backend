@@ -1,11 +1,13 @@
 package com.legicycle.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiIgnore
 @Entity
 @Table(name = "roles")
 public class Role extends Auditable
