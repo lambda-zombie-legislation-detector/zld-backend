@@ -133,6 +133,7 @@ public class UserController
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
+    @ApiOperation(value="Deletes all saved searches for active user, returns Active users info with updated data", response=User.class)
     @DeleteMapping("/user/allsearches")
     public ResponseEntity<?> removeAllUserSearches(Authentication authentication) {
         User u = userService.findUserByUsername(authentication.getName());
